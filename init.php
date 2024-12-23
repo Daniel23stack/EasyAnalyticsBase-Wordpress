@@ -7,17 +7,17 @@
    Author URI: https://www.jcontechnologies.com/
 */
 
-
-
 namespace EasyAnalytics;
 
 if (!defined('ABSPATH')) {
    return;
 }
 require_once __DIR__ . '/php/HooksHandler.php';
-require_once __DIR__ . '/php/setup/tables.php';
-require_once __DIR__ . '/php/setup/factory.php';
+require_once __DIR__ . '/php/setup/Tables.php';
+require_once __DIR__ . '/php/setup/Factory.php';
+require_once __DIR__ . '/php/Api.php';
 register_activation_hook(__FILE__, [__NAMESPACE__ . '\\HooksHandler', 'activate']);
 register_deactivation_hook(__FILE__, [__NAMESPACE__ . '\\HooksHandler', 'deactivate']);
 
 new HooksHandler();
+new Api();

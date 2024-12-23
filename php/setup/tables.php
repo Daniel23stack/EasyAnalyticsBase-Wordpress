@@ -15,10 +15,12 @@ class ExTables
 
 
 
-
+  /**
+   * Initialization of the tables for this example.
+   * @return void
+   */
   function initDashboard()
   {
-    error_log('Activate initDashboard');
     global $wpdb;
     $table_name = $wpdb->prefix . 'page_view_log';
 
@@ -63,6 +65,11 @@ class ExTables
 
   }
 
+  /**
+   * Remove the tables if the plugin is deleted. Normally a 
+   * .env would be used here if the user would like to keep the data.
+   * @return void
+   */
   function destroyDashboard()
   {
     error_log('Activate destroyDashboard');
@@ -82,6 +89,10 @@ class ExTables
   }
 
 
+  /**
+   * Will display a user dashboard that allows for different graphs to be shown based on the data. 
+   * @return void
+   */
   function dashboard()
   {
     ?>
@@ -271,11 +282,57 @@ class ExTables
   }
 
 
-  function testDummy()
+  function insertPageView($data)
   {
-    echo 'This is a test';
+    global $wpdb;
+    $tables = $this->tableNames;
+    $table = $wpdb->prefix . $tables[0];
+    $query = $wpdb->prepare("SELECT view_count FROM $table WHERE page_id = %d", $data['page_id']);
+    $viewCount = $wpdb->get_var($query);
+
+    $dataFormat = [
+      'page_id' => $data['page_id'],
+      'view_count' => 1,
+      'last_view' => date('Y-m-d')
+    ];
+
+    if ($viewCount === null) {
+      wpdb->insert($table, $dataFormat, array('%d', '%d', '%s'));
+    } else {
+      $dataFormat['view_count'] = intval($viewCount) + 1;
+      wpdb->insert($table, $dataFormat, array('%d', '%d', '%s'));
+    }
+
   }
 
+  function insertPageAnalytics($data)
+  {
+    global $wpdb;
+    $tables = $this->tableNames;
+    $table = $table = $wpdb->prefix . $tables[1];
+
+    $dataFormat = [
+      'page_id' => $data['page_id'],
+      'time_on_page' => $data['time_on_page'],
+      'bounce_rate' => $data['bounce_rate']
+    ];
+    $wpdb->insert($table, $dataFormat, array('%d', '%f', '%f'));
+  }
+
+  function insertUserInteractions($data)
+  {
+    global $wpdb;
+    $tables = $this->tableNames;
+    $table = $table = $wpdb->prefix . $tables[2];
+
+    $dataFormat = [
+      'page_id' => $data['page_id'],
+      'user_action' => $data['user_action']
+    ];
+
+    $wpdb->insert($table, $dataFormat, array('%d', '%s'));
+
+  }
 
 
 
