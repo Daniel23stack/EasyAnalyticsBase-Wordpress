@@ -2,7 +2,7 @@
 /*
    Plugin Name: Easy Analytics for the WordPress Platform
    Description: This plugin serves as a foundational framework for constructing an Analytics dashboard using a PHP Namespace along with Sample Data Generation techniques. This highlights the essential components required for fully leveraging WordPress.
-   Version: 0.8
+   Version: 1.0
    Author: Daniel Jennings
    Author URI: https://www.jcontechnologies.com/
 */
